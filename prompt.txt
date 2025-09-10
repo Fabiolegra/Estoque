@@ -5,3 +5,24 @@ Implemente o módulo de Cadastro e Autenticação de usuários em um sistema PHP
 - Utilize PDO para conexão segura com MySQL.
 - Senhas devem ser armazenadas com password_hash e verificadas com password_verify.
 3 -
+Crie um dashboard moderno e funcional de controle de estoque para uma empresa de médio porte. O design deve ser limpo, intuitivo e responsivo, priorizando a visualização rápida de informações importantes.
+
+Requisitos principais do dashboard:
+
+Visão geral do estoque: total de produtos, produtos em baixa quantidade, produtos em excesso, produtos novos e produtos críticos.
+
+Linha do tempo de entradas e saídas de estoque.
+
+Indicadores de alertas (ex: estoque abaixo do mínimo).
+
+Tabela de produtos: com colunas de nome, categoria, quantidade disponível, quantidade mínima, preço unitário e status.
+
+Botões de ação: adicionar, editar, excluir e cadastrar novos produtos.
+
+Filtros: por categoria, fornecedor ou status do produto.
+
+Pesquisa rápida de produtos.
+
+Estilo visual: moderno, cores suaves e contrastantes para alertas (ex: vermelho para produtos críticos, verde para produtos com estoque seguro). Ícones intuitivos para cada ação.
+
+Responsividade: deve funcionar bem em desktop, tablet e celular.

@@ -1,4 +1,0 @@
-[cadastro] POST data: {"nome":"fabio","email":"fabio@gmail.com","senha":"1"}
-[cadastro] registro inserido
-[login] POST data: {"email":"fabio@gmail.com","senha":"1"}
-[login] autenticado: user_id=1
