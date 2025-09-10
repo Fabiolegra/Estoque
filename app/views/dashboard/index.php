@@ -76,7 +76,7 @@
         <div class="flex items-center justify-between mb-3">
             <h3 class="font-semibold">Produtos</h3>
             <div class="flex items-center space-x-2">
-                <a href="#" class="bg-green-600 text-white px-3 py-1 rounded">Adicionar</a>
+                <a href="index.php?controller=AdicionarProduto&action=index" class="bg-green-600 text-white px-3 py-1 rounded">Adicionar</a>
                 <a href="#" class="bg-yellow-500 text-white px-3 py-1 rounded">Editar</a>
                 <a href="#" class="bg-red-500 text-white px-3 py-1 rounded">Excluir</a>
             </div>
