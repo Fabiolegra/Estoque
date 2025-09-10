@@ -40,13 +40,13 @@ class ProdutoController extends Controller {
     public function editar() {
         $id = $_GET['id'];
         $produto = (new Produto())->getById($id);
-        $categorias = (new Categoria())->getAll();
-        $fornecedores = (new Fornecedor())->getAll();
+        //$categorias = (new Categoria())->getAll();
+       // $fornecedores = (new Fornecedor())->getAll();
 
         $this->view('produtos/editar', [
             'produto' => $produto,
-            'categorias' => $categorias,
-            'fornecedores' => $fornecedores
+            //'categorias' => $categorias,
+            //'fornecedores' => $fornecedores
         ]);
     }
 
