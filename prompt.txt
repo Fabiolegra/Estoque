@@ -1,0 +1,2 @@
+1 - 
+Crie a arquitetura inicial de um sistema de controle de estoque usando PHP, MySQL e Tailwind CSS, seguindo o padrão MVC. O sistema deve rodar no XAMPP.
