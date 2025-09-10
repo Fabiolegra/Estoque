@@ -1,2 +1,7 @@
 1 - 
 Crie a arquitetura inicial de um sistema de controle de estoque usando PHP, MySQL e Tailwind CSS, seguindo o padrão MVC. O sistema deve rodar no XAMPP.
+2 -
+Implemente o módulo de Cadastro e Autenticação de usuários em um sistema PHP utilizando padrão MVC. Especificações:
+- Utilize PDO para conexão segura com MySQL.
+- Senhas devem ser armazenadas com password_hash e verificadas com password_verify.
+3 -

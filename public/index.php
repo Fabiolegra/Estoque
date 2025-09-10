@@ -1,11 +1,9 @@
 <?php
-// Arquivo de entrada principal
 require_once __DIR__ . '/../app/core/Controller.php';
 require_once __DIR__ . '/../app/core/Model.php';
 
-// Roteamento simples
-$controller = isset($_GET['controller']) ? $_GET['controller'] : 'Produto';
-$action = isset($_GET['action']) ? $_GET['action'] : 'index';
+$controller = $_GET['controller'] ?? 'Usuario';
+$action = $_GET['action'] ?? 'login';
 
 $controllerName = $controller . 'Controller';
 $controllerFile = __DIR__ . '/../app/controllers/' . $controllerName . '.php';
