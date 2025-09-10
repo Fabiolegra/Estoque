@@ -77,8 +77,6 @@
             <h3 class="font-semibold">Produtos</h3>
             <div class="flex items-center space-x-2">
                 <a href="index.php?controller=AdicionarProduto&action=index" class="bg-green-600 text-white px-3 py-1 rounded">Adicionar</a>
-                <a href="#" class="bg-yellow-500 text-white px-3 py-1 rounded">Editar</a>
-                <a href="#" class="bg-red-500 text-white px-3 py-1 rounded">Excluir</a>
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -110,10 +108,11 @@
                                 <?php endif; ?>
                             </td>
                             <td class="px-4 py-2 text-right">
-                                <a href="#" class="text-blue-600 mr-2">Ver</a>
-                                <a href="#" class="text-yellow-600 mr-2">Editar</a>
-                                <a href="#" class="text-red-600">Excluir</a>
-                            </td>
+    <a href="index.php?controller=Produto&action=ver&id=<?php echo $p['id']; ?>" class="text-blue-600 mr-2">Ver</a>
+    <a href="index.php?controller=Produto&action=editar&id=<?php echo $p['id']; ?>" class="text-yellow-600 mr-2">Editar</a>
+    <a href="index.php?controller=Produto&action=excluir&id=<?php echo $p['id']; ?>" class="text-red-600">Excluir</a>
+</td>
+
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

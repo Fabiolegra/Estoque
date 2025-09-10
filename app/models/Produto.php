@@ -106,4 +106,45 @@ class Produto extends Model {
         return $stmt->execute();
     }
 
+    // Retorna produto por ID
+public function getById($id) {
+    $stmt = $this->db->prepare("SELECT * FROM produtos WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+// Atualiza produto
+public function update($data) {
+    $stmt = $this->db->prepare("
+        UPDATE produtos SET
+            nome = :nome,
+            descricao = :descricao,
+            categoria_id = :categoria_id,
+            fornecedor_id = :fornecedor_id,
+            quantidade = :quantidade,
+            quantidade_minima = :quantidade_minima,
+            preco = :preco
+        WHERE id = :id
+    ");
+    $stmt->bindParam(':id', $data['id']);
+    $stmt->bindParam(':nome', $data['nome']);
+    $stmt->bindParam(':descricao', $data['descricao']);
+    $stmt->bindParam(':categoria_id', $data['categoria_id']);
+    $stmt->bindParam(':fornecedor_id', $data['fornecedor_id']);
+    $stmt->bindParam(':quantidade', $data['quantidade']);
+    $stmt->bindParam(':quantidade_minima', $data['quantidade_minima']);
+    $stmt->bindParam(':preco', $data['preco']);
+    return $stmt->execute();
+}
+
+// Excluir produto
+public function delete($id) {
+    $stmt = $this->db->prepare("DELETE FROM produtos WHERE id = :id");
+    $stmt->bindParam(':id', $id);
+    return $stmt->execute();
+}
+
+
+}
+?>
