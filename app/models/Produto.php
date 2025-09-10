@@ -91,4 +91,19 @@ class Produto extends Model {
         }
         return $res;
     }
+
+    // Cria um novo produto
+    public function create($data) {
+        $stmt = $this->db->prepare("
+            INSERT INTO produtos (nome, categoria, quantidade, quantidade_minima, preco)
+            VALUES (:nome, :categoria, :quantidade, :quantidade_minima, :preco)
+        ");
+        $stmt->bindParam(':nome', $data['nome']);
+        $stmt->bindParam(':categoria', $data['categoria']);
+        $stmt->bindParam(':quantidade', $data['quantidade']);
+        $stmt->bindParam(':quantidade_minima', $data['quantidade_minima']);
+        $stmt->bindParam(':preco', $data['preco']);
+        return $stmt->execute();
+    }
+
 }

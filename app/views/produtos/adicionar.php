@@ -22,7 +22,7 @@
 
 <div class="max-w-3xl mx-auto mt-6 bg-white rounded shadow p-6">
     <h2 class="text-2xl font-semibold mb-4">Cadastrar Novo Produto</h2>
-    <form action="index.php?controller=Produto&action=salvar" method="post" class="space-y-4">
+    <form action="index.php?controller=AdicionarProduto&action=salvar" method="post" class="space-y-4">
         <div>
             <label class="block text-sm font-medium mb-1" for="nome">Nome do Produto</label>
             <input type="text" name="nome" id="nome" required
