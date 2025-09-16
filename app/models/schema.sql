@@ -56,29 +56,3 @@ CREATE TABLE IF NOT EXISTS movimentos (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_movimentos_produto FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
--- Inserts de exemplo (opcionais):
-INSERT INTO categorias (nome, descricao) VALUES
-('Eletrônicos', 'Aparelhos e componentes'),
-('Papelaria', 'Material de escritório'),
-('Limpeza', 'Produtos de limpeza');
-
-INSERT INTO fornecedores (nome, contato, email) VALUES
-('Fornecedor A', 'Fulano', 'contato@fornest.com'),
-('Fornecedor B', 'Ciclano', 'vendas@forneb.com');
-
--- Exemplo de produto
-INSERT INTO produtos (nome, descricao, categoria_id, fornecedor_id, quantidade, quantidade_minima, preco)
-VALUES ('Mouse Óptico', 'Mouse USB padrão', 1, 1, 150, 10, 25.50),
-       ('Papel A4 500fls', 'Papel Sulfite A4', 2, 2, 40, 20, 22.00);
-
--- Exemplo de movimentos
-INSERT INTO movimentos (produto_id, tipo, quantidade, observacao) VALUES
-(1, 'entrada', 150, 'Compra inicial'),
-(2, 'entrada', 40, 'Compra inicial');
-
--- Observação: se já tiver tabelas com nomes iguais, revise antes de importar
--- Para importar: use phpMyAdmin -> Import, ou via terminal:
--- mysql -u root -p estoque < path/to/schema.sql
