@@ -46,42 +46,56 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="block text-sm font-medium mb-1" for="categoria_id">Categoria</label>
+                <label class="block text-sm font-medium mb-1" for="categoria_nome">Categoria</label>
+                <input type="text" id="categoria_nome" name="categoria_nome"
+                       list="categorias-lista"
+                       value="<?php
+                            $categoriaNomeAtual = '';
+                            if (isset($categorias) && is_array($categorias)) {
+                                foreach ($categorias as $c) {
+                                    if ((int)($produto['categoria_id'] ?? 0) === (int)$c['id']) { $categoriaNomeAtual = $c['nome']; break; }
+                                }
+                            }
+                            echo htmlspecialchars($categoriaNomeAtual, ENT_QUOTES, 'UTF-8');
+                       ?>"
+                       placeholder="Digite ou selecione o nome da categoria"
+                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="hidden" id="categoria_id" name="categoria_id" value="<?= htmlspecialchars($produto['categoria_id'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" />
                 <?php if (isset($categorias) && is_array($categorias) && count($categorias) > 0): ?>
-                    <select id="categoria_id" name="categoria_id"
-                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <datalist id="categorias-lista">
                         <?php foreach ($categorias as $c): ?>
-                            <option value="<?= htmlspecialchars($c['id'], ENT_QUOTES, 'UTF-8'); ?>"
-                                <?= (isset($produto['categoria_id']) && (int)$produto['categoria_id'] === (int)$c['id']) ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($c['nome'], ENT_QUOTES, 'UTF-8'); ?>
-                            </option>
+                            <option value="<?= htmlspecialchars($c['nome'], ENT_QUOTES, 'UTF-8'); ?>"></option>
                         <?php endforeach; ?>
-                    </select>
+                    </datalist>
                 <?php else: ?>
-                    <input type="number" id="categoria_id" name="categoria_id" min="0"
-                           value="<?= htmlspecialchars($produto['categoria_id'] ?? 0, ENT_QUOTES, 'UTF-8'); ?>"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    <p class="text-xs text-gray-500 mt-1">Informe o ID da categoria (lista não disponível).</p>
                 <?php endif; ?>
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1" for="fornecedor_id">Fornecedor</label>
+                <label class="block text-sm font-medium mb-1" for="fornecedor_nome">Fornecedor</label>
+                <input type="text" id="fornecedor_nome" name="fornecedor_nome"
+                       list="fornecedores-lista"
+                       value="<?php
+                            $fornecedorNomeAtual = '';
+                            if (isset($fornecedores) && is_array($fornecedores)) {
+                                foreach ($fornecedores as $f) {
+                                    if ((int)($produto['fornecedor_id'] ?? 0) === (int)$f['id']) { $fornecedorNomeAtual = $f['nome']; break; }
+                                }
+                            }
+                            echo htmlspecialchars($fornecedorNomeAtual, ENT_QUOTES, 'UTF-8');
+                       ?>"
+                       placeholder="Digite ou selecione o nome do fornecedor"
+                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <input type="hidden" id="fornecedor_id" name="fornecedor_id" value="<?= htmlspecialchars($produto['fornecedor_id'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" />
                 <?php if (isset($fornecedores) && is_array($fornecedores) && count($fornecedores) > 0): ?>
-                    <select id="fornecedor_id" name="fornecedor_id"
-                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <datalist id="fornecedores-lista">
                         <?php foreach ($fornecedores as $f): ?>
-                            <option value="<?= htmlspecialchars($f['id'], ENT_QUOTES, 'UTF-8'); ?>"
-                                <?= (isset($produto['fornecedor_id']) && (int)$produto['fornecedor_id'] === (int)$f['id']) ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($f['nome'], ENT_QUOTES, 'UTF-8'); ?>
-                            </option>
+                            <option value="<?= htmlspecialchars($f['nome'], ENT_QUOTES, 'UTF-8'); ?>"></option>
                         <?php endforeach; ?>
-                    </select>
+                    </datalist>
+                    <p class="text-xs text-gray-500 mt-1">O ID correspondente será preenchido automaticamente.</p>
                 <?php else: ?>
-                    <input type="number" id="fornecedor_id" name="fornecedor_id" min="0"
-                           value="<?= htmlspecialchars($produto['fornecedor_id'] ?? 0, ENT_QUOTES, 'UTF-8'); ?>"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    <p class="text-xs text-gray-500 mt-1">Informe o ID do fornecedor (lista não disponível).</p>
+                
                 <?php endif; ?>
             </div>
         </div>
@@ -114,6 +128,50 @@
         </div>
     </form>
 </div>
+
+<?php if ((isset($categorias) && is_array($categorias) && count($categorias) > 0) || (isset($fornecedores) && is_array($fornecedores) && count($fornecedores) > 0)): ?>
+<script>
+(function(){
+    // Mapeia nomes para IDs
+    var categoriasMap = {};
+    <?php if (isset($categorias) && is_array($categorias)): ?>
+    categoriasMap = {
+        <?php foreach ($categorias as $i => $c): ?>
+        <?= json_encode((string)$c['nome']) ?>: <?= (int)$c['id'] ?><?= $i === array_key_last($categorias) ? '' : ',' ?>
+        <?php endforeach; ?>
+    };
+    <?php endif; ?>
+
+    var fornecedoresMap = {};
+    <?php if (isset($fornecedores) && is_array($fornecedores)): ?>
+    fornecedoresMap = {
+        <?php foreach ($fornecedores as $i => $f): ?>
+        <?= json_encode((string)$f['nome']) ?>: <?= (int)$f['id'] ?><?= $i === array_key_last($fornecedores) ? '' : ',' ?>
+        <?php endforeach; ?>
+    };
+    <?php endif; ?>
+
+    function bindNameToId(inputId, hiddenId, map) {
+        var input = document.getElementById(inputId);
+        var hidden = document.getElementById(hiddenId);
+        if (!input || !hidden) return;
+        function update(){
+            var nome = input.value || '';
+            if (Object.prototype.hasOwnProperty.call(map, nome)) {
+                hidden.value = map[nome];
+            } else {
+                hidden.value = '';
+            }
+        }
+        input.addEventListener('change', update);
+        input.addEventListener('input', update);
+    }
+
+    bindNameToId('categoria_nome', 'categoria_id', categoriasMap);
+    bindNameToId('fornecedor_nome', 'fornecedor_id', fornecedoresMap);
+})();
+</script>
+<?php endif; ?>
 
 </body>
 </html>
