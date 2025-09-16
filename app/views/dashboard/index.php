@@ -22,6 +22,26 @@
         </div>
     </div>
 </nav>
+
+<?php if (!empty($error)): ?>
+    <div class="max-w-7xl mx-auto p-4">
+        <div class="p-3 bg-red-50 border-l-4 border-red-400 text-red-700 rounded"><?php echo htmlspecialchars($error); ?></div>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($search_results)): ?>
+    <div class="max-w-7xl mx-auto p-4">
+        <h3 class="text-xl font-semibold mt-6">Resultados da busca: <?php echo htmlspecialchars($q ?? ''); ?></h3>
+        <div class="mt-4">
+            <ul class="list-disc list-inside">
+                <?php foreach ($search_results as $result): ?>
+                    <li><?php echo htmlspecialchars($result['nome'] ?? ''); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>
+
 <div class="max-w-7xl mx-auto p-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white p-4 rounded shadow">
@@ -51,9 +71,9 @@
                         <div class="flex items-center justify-between p-2 border rounded">
                             <div>
                                 <div class="font-medium"><?php echo htmlspecialchars($mov['nome'] ?? ''); ?></div>
-                                <div class="text-sm text-gray-500"><?php echo htmlspecialchars($mov['tipo'] ?? '') . ' • ' . ($mov['quantidade'] ?? ''); ?></div>
+                                <div class="text-sm text-gray-500"><?php echo htmlspecialchars(($mov['tipo'] ?? '')) . ' • ' . htmlspecialchars((string)($mov['quantidade'] ?? '')); ?></div>
                             </div>
-                            <div class="text-sm text-gray-400"><?php echo $mov['created_at'] ?? ''; ?></div>
+                            <div class="text-sm text-gray-400"><?php echo htmlspecialchars($mov['created_at'] ?? ''); ?></div>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -93,26 +113,25 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <?php foreach ($produtos as $p): ?>
+                    <?php foreach (($produtos ?? []) as $p): ?>
                         <tr>
-                            <td class="px-4 py-2"><?php echo htmlspecialchars($p['nome']); ?></td>
+                            <td class="px-4 py-2"><?php echo htmlspecialchars($p['nome'] ?? ''); ?></td>
                             <td class="px-4 py-2"><?php echo htmlspecialchars($p['categoria'] ?? ''); ?></td>
-                            <td class="px-4 py-2"><?php echo htmlspecialchars($p['quantidade'] ?? 0); ?></td>
-                            <td class="px-4 py-2"><?php echo htmlspecialchars($p['quantidade_minima'] ?? ''); ?></td>
-                            <td class="px-4 py-2">R$ <?php echo number_format($p['preco'] ?? 0, 2, ',', '.'); ?></td>
+                            <td class="px-4 py-2"><?php echo htmlspecialchars((string)($p['quantidade'] ?? 0)); ?></td>
+                            <td class="px-4 py-2"><?php echo htmlspecialchars((string)($p['quantidade_minima'] ?? '')); ?></td>
+                            <td class="px-4 py-2">R$ <?php echo number_format((float)($p['preco'] ?? 0), 2, ',', '.'); ?></td>
                             <td class="px-4 py-2">
-                                <?php if (isset($p['quantidade_minima']) && $p['quantidade'] <= $p['quantidade_minima']): ?>
+                                <?php if (isset($p['quantidade_minima']) && isset($p['quantidade']) && (int)$p['quantidade'] <= (int)$p['quantidade_minima']): ?>
                                     <span class="text-red-600 font-semibold">Crítico</span>
                                 <?php else: ?>
                                     <span class="text-green-600 font-semibold">Ok</span>
                                 <?php endif; ?>
                             </td>
                             <td class="px-4 py-2 text-right">
-    <a href="index.php?controller=Produto&action=ver&id=<?php echo $p['id']; ?>" class="text-blue-600 mr-2">Ver</a>
-    <a href="index.php?controller=Produto&action=editar&id=<?php echo $p['id']; ?>" class="text-yellow-600 mr-2">Editar</a>
-    <a href="index.php?controller=Produto&action=excluir&id=<?php echo $p['id']; ?>" class="text-red-600">Excluir</a>
-</td>
-
+                                <a href="index.php?controller=Produto&action=ver&id=<?php echo urlencode((string)($p['id'] ?? '')); ?>" class="text-blue-600 mr-2">Ver</a>
+                                <a href="index.php?controller=Produto&action=editar&id=<?php echo urlencode((string)($p['id'] ?? '')); ?>" class="text-yellow-600 mr-2">Editar</a>
+                                <a href="index.php?controller=Produto&action=excluir&id=<?php echo urlencode((string)($p['id'] ?? '')); ?>" class="text-red-600">Excluir</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

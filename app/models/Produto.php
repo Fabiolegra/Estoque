@@ -66,9 +66,11 @@ class Produto extends Model {
     }
 
     // Busca rápida por nome
-    public function search($q, $limit = 50) {
-        $stmt = $this->db->prepare('SELECT * FROM produtos WHERE nome LIKE ? LIMIT ?');
-        $stmt->execute(["%$q%", (int)$limit]);
+    public function search($q, $limit) {
+        $stmt = $this->db->prepare("SELECT * FROM produtos WHERE nome LIKE :q LIMIT :limit");
+        $stmt->bindValue(':q', "%$q%");
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -143,8 +145,5 @@ public function delete($id) {
     $stmt = $this->db->prepare("DELETE FROM produtos WHERE id = :id");
     $stmt->bindParam(':id', $id);
     return $stmt->execute();
-}
-
-
-}
+}}
 ?>
