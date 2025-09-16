@@ -37,45 +37,36 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="block text-sm font-medium mb-1" for="categoria">Categoria</label>
-                <input type="text" name="categoria" id="categoria"
+                <label class="block text-sm font-medium mb-1" for="categoria_nome">Categoria (por nome)</label>
+                <input type="text" name="categoria" id="categoria_nome" list="categorias-lista"
+                       placeholder="Digite ou selecione o nome da categoria"
                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1" for="categoria_id">Categoria</label>
+                <input type="hidden" name="categoria_id" id="categoria_id">
                 <?php if (isset($categorias) && is_array($categorias) && count($categorias) > 0): ?>
-                    <select name="categoria_id" id="categoria_id"
-                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="">Sem categoria</option>
+                    <datalist id="categorias-lista">
                         <?php foreach ($categorias as $c): ?>
-                            <option value="<?= htmlspecialchars($c['id'], ENT_QUOTES, 'UTF-8'); ?>">
-                                <?= htmlspecialchars($c['nome'], ENT_QUOTES, 'UTF-8'); ?>
-                            </option>
+                            <option value="<?= htmlspecialchars($c['nome'], ENT_QUOTES, 'UTF-8'); ?>"></option>
                         <?php endforeach; ?>
-                    </select>
+                    </datalist>
                 <?php else: ?>
-                    <input type="number" name="categoria_id" id="categoria_id" min="0"
-                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <?php endif; ?>
             </div>
-        </div>
 
-        <div>
-            <label class="block text-sm font-medium mb-1" for="fornecedor_id">Fornecedor</label>
-            <?php if (isset($fornecedores) && is_array($fornecedores) && count($fornecedores) > 0): ?>
-                <select name="fornecedor_id" id="fornecedor_id"
-                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Sem fornecedor</option>
-                    <?php foreach ($fornecedores as $f): ?>
-                        <option value="<?= htmlspecialchars($f['id'], ENT_QUOTES, 'UTF-8'); ?>">
-                            <?= htmlspecialchars($f['nome'], ENT_QUOTES, 'UTF-8'); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            <?php else: ?>
-                <input type="number" name="fornecedor_id" id="fornecedor_id" min="0"
+            <div>
+                <label class="block text-sm font-medium mb-1" for="fornecedor_nome">Fornecedor (por nome)</label>
+                <input type="text" name="fornecedor_nome" id="fornecedor_nome" list="fornecedores-lista"
+                       placeholder="Digite ou selecione o nome do fornecedor"
                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <?php endif; ?>
+                <input type="hidden" name="fornecedor_id" id="fornecedor_id">
+                <?php if (isset($fornecedores) && is_array($fornecedores) && count($fornecedores) > 0): ?>
+                    <datalist id="fornecedores-lista">
+                        <?php foreach ($fornecedores as $f): ?>
+                            <option value="<?= htmlspecialchars($f['nome'], ENT_QUOTES, 'UTF-8'); ?>"></option>
+                        <?php endforeach; ?>
+                    </datalist>
+                <?php else: ?>
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -102,7 +93,53 @@
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Cadastrar</button>
         </div>
     </form>
+
+    <div class="mt-6 text-xs text-gray-500">
+    </div>
 </div>
+
+<?php if ((isset($categorias) && is_array($categorias) && count($categorias) > 0) || (isset($fornecedores) && is_array($fornecedores) && count($fornecedores) > 0)): ?>
+<script>
+(function(){
+    var categoriasMap = {};
+    <?php if (isset($categorias) && is_array($categorias)): ?>
+    categoriasMap = {
+        <?php foreach ($categorias as $i => $c): ?>
+        <?= json_encode((string)$c['nome']) ?>: <?= (int)$c['id'] ?><?= $i === array_key_last($categorias) ? '' : ',' ?>
+        <?php endforeach; ?>
+    };
+    <?php endif; ?>
+
+    var fornecedoresMap = {};
+    <?php if (isset($fornecedores) && is_array($fornecedores)): ?>
+    fornecedoresMap = {
+        <?php foreach ($fornecedores as $i => $f): ?>
+        <?= json_encode((string)$f['nome']) ?>: <?= (int)$f['id'] ?><?= $i === array_key_last($fornecedores) ? '' : ',' ?>
+        <?php endforeach; ?>
+    };
+    <?php endif; ?>
+
+    function bindNameToId(inputId, hiddenId, map) {
+        var input = document.getElementById(inputId);
+        var hidden = document.getElementById(hiddenId);
+        if (!input || !hidden) return;
+        function update(){
+            var nome = input.value || '';
+            if (Object.prototype.hasOwnProperty.call(map, nome)) {
+                hidden.value = map[nome];
+            } else {
+                hidden.value = '';
+            }
+        }
+        input.addEventListener('change', update);
+        input.addEventListener('input', update);
+    }
+
+    bindNameToId('categoria_nome', 'categoria_id', categoriasMap);
+    bindNameToId('fornecedor_nome', 'fornecedor_id', fornecedoresMap);
+})();
+</script>
+<?php endif; ?>
 
 </body>
 </html>

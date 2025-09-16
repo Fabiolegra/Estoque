@@ -41,3 +41,6 @@ analise o schema.sql e adicione ao adicionar.php
 8 -
 em editar.php eu quero que a categoria e fornecedor sejam adicionado pelo nome e nao pelo id
 
+9 - 
+em adicionar.php eu quero que a categoria e fornecedor sejam adicionado pelo nome e nao pelo id
+
