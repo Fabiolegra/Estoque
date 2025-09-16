@@ -26,3 +26,6 @@ Pesquisa rápida de produtos.
 Estilo visual: moderno, cores suaves e contrastantes para alertas (ex: vermelho para produtos críticos, verde para produtos com estoque seguro). Ícones intuitivos para cada ação.
 
 Responsividade: deve funcionar bem em desktop, tablet e celular.
+
+4 - 
+redesenhe o editar.php

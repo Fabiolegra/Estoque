@@ -128,7 +128,6 @@
                                 <?php endif; ?>
                             </td>
                             <td class="px-4 py-2 text-right">
-                                <a href="index.php?controller=Produto&action=ver&id=<?php echo urlencode((string)($p['id'] ?? '')); ?>" class="text-blue-600 mr-2">Ver</a>
                                 <a href="index.php?controller=Produto&action=editar&id=<?php echo urlencode((string)($p['id'] ?? '')); ?>" class="text-yellow-600 mr-2">Editar</a>
                                 <a href="index.php?controller=Produto&action=excluir&id=<?php echo urlencode((string)($p['id'] ?? '')); ?>" class="text-red-600">Excluir</a>
                             </td>
