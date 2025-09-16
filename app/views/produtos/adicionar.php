@@ -30,9 +30,52 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium mb-1" for="categoria">Categoria</label>
-            <input type="text" name="categoria" id="categoria"
-                   class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <label class="block text-sm font-medium mb-1" for="descricao">Descrição</label>
+            <textarea name="descricao" id="descricao" rows="3"
+                      class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1" for="categoria">Categoria</label>
+                <input type="text" name="categoria" id="categoria"
+                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1" for="categoria_id">Categoria</label>
+                <?php if (isset($categorias) && is_array($categorias) && count($categorias) > 0): ?>
+                    <select name="categoria_id" id="categoria_id"
+                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Sem categoria</option>
+                        <?php foreach ($categorias as $c): ?>
+                            <option value="<?= htmlspecialchars($c['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                                <?= htmlspecialchars($c['nome'], ENT_QUOTES, 'UTF-8'); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php else: ?>
+                    <input type="number" name="categoria_id" id="categoria_id" min="0"
+                           class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1" for="fornecedor_id">Fornecedor</label>
+            <?php if (isset($fornecedores) && is_array($fornecedores) && count($fornecedores) > 0): ?>
+                <select name="fornecedor_id" id="fornecedor_id"
+                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Sem fornecedor</option>
+                    <?php foreach ($fornecedores as $f): ?>
+                        <option value="<?= htmlspecialchars($f['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                            <?= htmlspecialchars($f['nome'], ENT_QUOTES, 'UTF-8'); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            <?php else: ?>
+                <input type="number" name="fornecedor_id" id="fornecedor_id" min="0"
+                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <?php endif; ?>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

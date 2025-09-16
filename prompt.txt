@@ -31,3 +31,10 @@ Responsividade: deve funcionar bem em desktop, tablet e celular.
 redesenhe o editar.php
 
 5 - corrija o redirecionamento do editar.php quando o formulario é preenchido para o dashboard
+
+6 -
+analise o schema.sql e adicione ao adicionar.php
+
+7 - 
+analise o schema.sql e adicione ao adicionar.php
+
