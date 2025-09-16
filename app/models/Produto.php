@@ -118,6 +118,12 @@ public function getById($id) {
 
 // Atualiza produto
 public function update($data) {
+    // Normaliza IDs relacionais: usa NULL quando vazio/zero para evitar violar FKs
+    $categoriaId = (isset($data['categoria_id']) && is_numeric($data['categoria_id']) && (int)$data['categoria_id'] > 0)
+        ? (int)$data['categoria_id'] : null;
+    $fornecedorId = (isset($data['fornecedor_id']) && is_numeric($data['fornecedor_id']) && (int)$data['fornecedor_id'] > 0)
+        ? (int)$data['fornecedor_id'] : null;
+
     $stmt = $this->db->prepare("
         UPDATE produtos SET
             nome = :nome,
@@ -129,14 +135,27 @@ public function update($data) {
             preco = :preco
         WHERE id = :id
     ");
-    $stmt->bindParam(':id', $data['id']);
-    $stmt->bindParam(':nome', $data['nome']);
-    $stmt->bindParam(':descricao', $data['descricao']);
-    $stmt->bindParam(':categoria_id', $data['categoria_id']);
-    $stmt->bindParam(':fornecedor_id', $data['fornecedor_id']);
-    $stmt->bindParam(':quantidade', $data['quantidade']);
-    $stmt->bindParam(':quantidade_minima', $data['quantidade_minima']);
-    $stmt->bindParam(':preco', $data['preco']);
+
+    $stmt->bindValue(':id', (int)$data['id'], PDO::PARAM_INT);
+    $stmt->bindValue(':nome', $data['nome']);
+    $stmt->bindValue(':descricao', $data['descricao']);
+
+    if ($categoriaId === null) {
+        $stmt->bindValue(':categoria_id', null, PDO::PARAM_NULL);
+    } else {
+        $stmt->bindValue(':categoria_id', $categoriaId, PDO::PARAM_INT);
+    }
+
+    if ($fornecedorId === null) {
+        $stmt->bindValue(':fornecedor_id', null, PDO::PARAM_NULL);
+    } else {
+        $stmt->bindValue(':fornecedor_id', $fornecedorId, PDO::PARAM_INT);
+    }
+
+    $stmt->bindValue(':quantidade', (int)$data['quantidade'], PDO::PARAM_INT);
+    $stmt->bindValue(':quantidade_minima', (int)$data['quantidade_minima'], PDO::PARAM_INT);
+    $stmt->bindValue(':preco', (float)$data['preco']);
+
     return $stmt->execute();
 }
 

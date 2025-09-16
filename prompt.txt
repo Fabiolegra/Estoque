@@ -29,3 +29,5 @@ Responsividade: deve funcionar bem em desktop, tablet e celular.
 
 4 - 
 redesenhe o editar.php
+
+5 - corrija o redirecionamento do editar.php quando o formulario é preenchido para o dashboard

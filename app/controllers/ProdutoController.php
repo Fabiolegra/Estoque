@@ -64,14 +64,16 @@ class ProdutoController extends Controller {
         ];
 
         (new Produto())->update($data);
-        header('Location: index.php?controller=Produto&action=index');
+        header('Location: index.php?controller=Dashboard&action=index');
+        exit;
     }
 
     // Excluir produto
     public function excluir() {
         $id = $_GET['id'];
         (new Produto())->delete($id);
-        header('Location: index.php?controller=Produto&action=index');
+        header('Location: index.php?controller=Dashboard&action=index');
+        exit;
     }
 
 }
